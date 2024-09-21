@@ -1,5 +1,6 @@
 import {Box, TextField, Button, styled, Typography} from '@mui/material'
 import { useState } from 'react';
+import { signupUser } from '../../../../server/controller/user-controller';
 
 
 
@@ -101,7 +102,7 @@ const Login = () => {
                 <TextField variant="standard" onChange={() =>onInputChange()} name='name' label="Username" />
                 <TextField variant="standard" onChange={() =>onInputChange()} name='username' label="Password"/>
                 <TextField variant="standard" onChange={() =>onInputChange()} name='password' label="Password"/>
-                <Button variant='contained'>Sign up</Button>
+                <Button variant='contained' onClick={() => signupUser()}>Sign up</Button>
                 <div>Already have an accout?</div>
                 <Button onClick={() => toggleSignup()}>Login</Button>
             </Wrapper>
