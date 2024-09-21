@@ -1,11 +1,11 @@
-import {Box, TextField, Button, styled, Typography} from '@mui/material'
+import {Box, TextField, Button, styled, Typography} from '@mui/material';
 import { useState } from 'react';
-import { signupUser } from '../../../../server/controller/user-controller';
+import { API } from '../../service/api';
 
 
 
 const Component = styled(Box)`
-    width: 400px;
+    width: 400px;   
     margin: auto;
     box-shadow: 5px 2px 5px 2px rgb(0 0 0/ 0.6);
     border-radius: 25px;
@@ -83,8 +83,14 @@ const Login = () => {
     const onInputChange = (e) => {
         setSignup({ ...signup, [e.target.name]: e.target.value });
     }
-    const signupUser =() =>{
-        
+    const signupUser = async () =>{
+        let respone = await API.userSignup(signup)
+        if(respone.isSucess){
+            setSignup(signupInitialValues);
+            toggleAccount('login');
+        } else{
+            setError('Error occured!!Please try again');
+        }
     }
     return(        
         <Component>   
@@ -96,6 +102,7 @@ const Login = () => {
              <Wrapper>
                 <TextField variant="standard" label="Username" />
                 <TextField variant="standard" label="Password"/>
+                {error && <Error>{error}</Error>}   
                 <Button variant='contained'>Login</Button>
                 <div>Don't have account?</div>
                 <Button onClick={() => toggleSignup()}>Register an account</Button>
@@ -105,6 +112,7 @@ const Login = () => {
                 <TextField variant="standard" onChange={() =>onInputChange()} name='name' label="Username" />
                 <TextField variant="standard" onChange={() =>onInputChange()} name='username' label="Password"/>
                 <TextField variant="standard" onChange={() =>onInputChange()} name='password' label="Password"/>
+                {error && <Error>{error}</Error>}    
                 <Button variant='contained' onClick={() => signupUser()}>Sign up</Button>
                 <div>Already have an accout?</div>
                 <Button onClick={() => toggleSignup()}>Login</Button>
