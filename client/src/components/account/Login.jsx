@@ -1,10 +1,15 @@
 import {Box, TextField, Button, styled, Typography} from '@mui/material'
+import { useState } from 'react';
+
+
 
 const Component = styled(Box)`
     width: 400px;
     margin: auto;
     box-shadow: 5px 2px 5px 2px rgb(0 0 0/ 0.6);
     border-radius: 25px;
+    margin-top: 50px;
+    background: transparent;
 `;
 
 const Image = styled('img')({
@@ -16,6 +21,7 @@ const Image = styled('img')({
 
 const Wrapper = styled(Box)`
     padding: 25px 35px;
+    
     display: flex;
     flex: 1;
     overflow: auto;
@@ -65,28 +71,41 @@ const signupInitialValues = {
     username: '',
     password: '',
 };
+
 const Login = () => {
     const imgLink = 'https://vectorlogoseek.com/wp-content/uploads/2019/10/bloq-vector-logo.png';
-    return(
-        
+    const [account, toggleAccount] = useState('login');
+    const [signup, setSignup] = useState(signupInitialValues);
+    const toggleSignup = () => {
+        account === 'signup' ? toggleAccount('login') : toggleAccount('signup');
+    }
+    const onInputChange = (e) => {
+        setSignup({ ...signup, [e.target.name]: e.target.value });
+    }
+    return(        
         <Component>   
             <Box>      
             <Image src={imgLink} alt="login" />
-            {/* <Wrapper>
+            {
+                account === 'login' ?
+            
+             <Wrapper>
                 <TextField variant="standard" label="Username" />
                 <TextField variant="standard" label="Password"/>
                 <Button variant='contained'>Login</Button>
                 <div>Don't have account?</div>
-                <Button>Register an account</Button>
-            </Wrapper> */}
+                <Button onClick={() => toggleSignup()}>Register an account</Button>
+            </Wrapper> 
+            :
             <Wrapper>
-                <TextField variant="standard" label="Username" />
-                <TextField variant="standard" label="Password"/>
-                <TextField variant="standard" label="Password"/>
-                <Button variant='contained'>Login</Button>
-                <div>Don't have account?</div>
-                <Button>Register an account</Button>
+                <TextField variant="standard" onChange={() =>onInputChange()} name='name' label="Username" />
+                <TextField variant="standard" onChange={() =>onInputChange()} name='username' label="Password"/>
+                <TextField variant="standard" onChange={() =>onInputChange()} name='password' label="Password"/>
+                <Button variant='contained'>Sign up</Button>
+                <div>Already have an accout?</div>
+                <Button onClick={() => toggleSignup()}>Login</Button>
             </Wrapper>
+            }
             </Box>  
         </Component>
 
