@@ -77,19 +77,21 @@ const Login = () => {
     const imgLink = 'https://vectorlogoseek.com/wp-content/uploads/2019/10/bloq-vector-logo.png';
     const [account, toggleAccount] = useState('login');
     const [signup, setSignup] = useState(signupInitialValues);
+    const [error, setError] = useState('');
     const toggleSignup = () => {
         account === 'signup' ? toggleAccount('login') : toggleAccount('signup');
     }
     const onInputChange = (e) => {
         setSignup({ ...signup, [e.target.name]: e.target.value });
     }
-    const signupUser = async () =>{
-        let respone = await API.userSignup(signup)
-        if(respone.isSucess){
+    const signupUser = async () => {
+        let response = await API.userSignup(signup);
+        if (response.isSuccess) {
+            setError('');
             setSignup(signupInitialValues);
             toggleAccount('login');
-        } else{
-            setError('Error occured!!Please try again');
+        } else {
+            setError('Something went wrong! please try again later');
         }
     }
     return(        
@@ -109,10 +111,10 @@ const Login = () => {
             </Wrapper> 
             :
             <Wrapper>
-                <TextField variant="standard" onChange={() =>onInputChange()} name='name' label="Username" />
-                <TextField variant="standard" onChange={() =>onInputChange()} name='username' label="Password"/>
-                <TextField variant="standard" onChange={() =>onInputChange()} name='password' label="Password"/>
-                {error && <Error>{error}</Error>}    
+                <TextField variant="standard" onChange={(e) =>onInputChange(e)} name='name' label="Full Name" />
+                <TextField variant="standard" onChange={(e) =>onInputChange(e)} name='username' label="Username"/>
+                <TextField variant="standard" onChange={(e) =>onInputChange(e)} name='password' label="Password"/>
+                {error && <Error>abc</Error>}    
                 <Button variant='contained' onClick={() => signupUser()}>Sign up</Button>
                 <div>Already have an accout?</div>
                 <Button onClick={() => toggleSignup()}>Login</Button>
